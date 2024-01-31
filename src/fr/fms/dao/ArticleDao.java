@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import fr.fms.entities.Article;
 
 public class ArticleDao implements Dao<Article>{
-	
+	public ArrayList<Article> articles = new ArrayList<Article>();
 	public Connection connection = BddConnection.getConnection();
 	
 	@Override
@@ -34,9 +34,20 @@ public class ArticleDao implements Dao<Article>{
 		Article article = null;
 		String readArticle = "SELECT IdArticle, Description, Brand, UnitaryPrice, IdCategory FROM T_Articles WHERE IdArticle = ?";
 		try(PreparedStatement ps = connection.prepareStatement(readArticle)) {
-			ps.setInt(1, id);
-			if(ps.executeUpdate() == 1)
-				System.out.println("Article trouvé");
+			ps.setInt(1, articles.get(id - 1).getIdArticle());
+			try(ResultSet resultSet = ps.executeQuery()) {
+				if(resultSet.next()) {
+					int rsIdArticle = resultSet.getInt(1);
+					String rsDescription = resultSet.getNString("Description");
+					String rsBrand = resultSet.getNString("Brand");
+					double rsUnitaryPrice = resultSet.getDouble("UnitaryPrice");
+					int rsIdCategory = resultSet.getInt("IdCategory");
+					
+					System.out.println("Article trouvé");
+					return article = new Article(rsIdArticle, rsDescription, rsBrand, rsUnitaryPrice, rsIdCategory);
+				}else
+					System.out.println("Article non trouvé");
+			}
 		} catch (SQLException e) {
 			logger.severe("Problème de lecture de l'article" + e.getMessage());
 		}
@@ -78,7 +89,6 @@ public class ArticleDao implements Dao<Article>{
 	
 	@Override
 	public ArrayList<Article> readAll(){
-		ArrayList<Article> articles = new ArrayList<Article>();
 		String strSql = "SELECT * FROM T_Articles";
 		try(Statement statement = connection.createStatement()){
 			try(ResultSet resultSet = statement.executeQuery(strSql)){
@@ -91,6 +101,9 @@ public class ArticleDao implements Dao<Article>{
 					articles.add(new Article(rsIdArticle, rsDescription, rsBrand, rsUnitaryPrice, rsIdCategory));
 				}
 			}
+			
+			for(Article a : articles)
+				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
 		} catch (SQLException e) {
 			logger.severe("Problème d'affichage des articles" + e.getMessage());
 		}
