@@ -16,6 +16,14 @@ public class Article {
 		IdCategory = idCategory;
 	}
 
+	public Article(String description, String brand, double unitaryPrice, int idCategory) {
+		super();
+		Description = description;
+		Brand = brand;
+		UnitaryPrice = unitaryPrice;
+		IdCategory = idCategory;
+	}
+	
 	public int getIdArticle() {
 		return IdArticle;
 	}
