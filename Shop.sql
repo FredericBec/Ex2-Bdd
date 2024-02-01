@@ -43,8 +43,8 @@ UPDATE T_Articles SET Brand = 'Bitedefender', UnitaryPrice = 65 WHERE IdArticle 
 SELECT * FROM T_Articles;
 
 -- supprimer un article à la table articles
-DELETE FROM T_Articles WHERE IdArticle = 6;
-SELECT * FROM T_Articles;
+--DELETE FROM T_Articles WHERE IdArticle = 6;
+--SELECT * FROM T_Articles;
 
 -- afficher tous les articles dont UnitaryPrice > 100
 SELECT * FROM T_Articles WHERE UnitaryPrice > 100;
@@ -96,5 +96,26 @@ UPDATE T_Articles SET IdCategory = 2 WHERE IdArticle = 15;
 SELECT * FROM T_Articles;
 
 -- trouver la requête qui permet d'obtenir le résultat selon le pdf ExosBdd
--- SELECT IdArticle, T_Articles.Description, Brand, UnitaryPrice, CatName FROM T_Articles INNER JOIN T_Categories ON IdArticle = T_Categories.IdCategory;
-SELECT IdArticle, a.Description, Brand, UnitaryPrice, CatName FROM T_Articles AS a INNER JOIN T_Categories as c ON IdArticle = c.IdCategory;
+SELECT IdArticle, a.Description, Brand, UnitaryPrice, CatName FROM T_Articles AS a INNER JOIN T_Categories AS c ON a.IdCategory = c.IdCategory WHERE a.IdArticle > 10 ORDER BY UnitaryPrice ASC;
+
+-- Ajout de la table User
+CREATE TABLE T_Users(
+	IdUser		int(4)		PRIMARY KEY AUTO_INCREMENT,
+	Login		varchar(20) NOT NULL,
+	Password	varchar(20) NOT NULL
+)ENGINE = InnoDB;
+
+-- Insertions des utilisateurs
+INSERT INTO T_Users(Login, Password) 
+VALUES 
+	("Admin", "Super@admin"),
+	("Fred", "BmI4@e40D!"),
+	("Alejandra", "M3x1cAn0!"),
+	("Donovan", "R0c4St1r!");
+
+
+
+
+
+
+
