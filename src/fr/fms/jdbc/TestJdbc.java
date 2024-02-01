@@ -63,9 +63,9 @@ public class TestJdbc {
 			for(Article a : articles) {
 				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
 			}
-			
-			//Article article = articles.get(7);
-			//showInfoArticle(article);
+			System.out.println();
+			Article article = articles.get(7);
+			showInfoArticle(article);
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class TestJdbc {
 		}
 	}
 	
-	public static void updateArticle() {
+	public static void updateArticle(Article article) {
 		String update = "UPDATE T_Articles SET Brand = ? WHERE IdArticle = ?";
 		try(Connection connection = DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.login"), prop.getProperty("db.password"))){
 			try(PreparedStatement ps = connection.prepareStatement(update)){
@@ -138,15 +138,22 @@ public class TestJdbc {
 		String showInfo = "SELECT IdArticle, Description, Brand, UnitaryPrice, IdCategory FROM T_Articles WHERE IdArticle = ?";
 		try(Connection connection = DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.login"), prop.getProperty("db.password"))){
 			try(PreparedStatement ps = connection.prepareStatement(showInfo)){
-				ps.setInt(1, article.getIdArticle());
-				if(ps.executeUpdate() == 1) {
-					System.out.println("insertion ok");
+				ps.setInt(1, (article.getIdArticle() - 1));
+				try(ResultSet resultSet = ps.executeQuery()){
+					if(resultSet.next()) {
+						int rsIdArticle = resultSet.getInt(1);
+						String rsDescription = resultSet.getNString("Description");
+						String rsBrand = resultSet.getNString("Brand");
+						double rsUnitaryPrice = resultSet.getDouble("UnitaryPrice");
+						
+						System.out.println("insertion ok");
+						System.out.println(rsIdArticle + " - " + rsDescription + " - " + rsBrand + " - " + rsUnitaryPrice);
+					}
 				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(article.getIdArticle() + " - " + article.getDescription() + " - " + article.getBrand() + " - " + article.getUnitaryPrice());
 		
 	}
 
