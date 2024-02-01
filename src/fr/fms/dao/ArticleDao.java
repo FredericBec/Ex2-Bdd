@@ -76,7 +76,7 @@ public class ArticleDao implements Dao<Article>{
 	public boolean delete(Article article) {
 		String removearticle = "DELETE FROM T_Articles WHERE IdArticle = ?";
 		try(PreparedStatement ps = connection.prepareStatement(removearticle)){
-			ps.setInt(1, article.getIdArticle());
+			ps.setInt(1, (article.getIdArticle()-1));
 			if(ps.executeUpdate() == 1) {
 				System.out.println("Suppréssion effectuée");
 				return true;
@@ -102,8 +102,6 @@ public class ArticleDao implements Dao<Article>{
 				}
 			}
 			
-			for(Article a : articles)
-				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
 		} catch (SQLException e) {
 			logger.severe("Problème d'affichage des articles" + e.getMessage());
 		}
