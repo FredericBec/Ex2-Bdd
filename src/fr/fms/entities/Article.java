@@ -17,13 +17,19 @@ public class Article {
 	}
 
 	public Article(String description, String brand, double unitaryPrice, int idCategory) {
-		super();
 		Description = description;
 		Brand = brand;
 		UnitaryPrice = unitaryPrice;
 		IdCategory = idCategory;
 	}
 	
+	public Article(int idArticle, String description, String brand, double unitaryPrice) {
+		IdArticle = idArticle;
+		Description = description;
+		Brand = brand;
+		UnitaryPrice = unitaryPrice;
+	}
+
 	public int getIdArticle() {
 		return IdArticle;
 	}
