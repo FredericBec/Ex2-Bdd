@@ -13,6 +13,20 @@ public class UserDao implements Dao<User>{
 	public static ArrayList<User> users = new ArrayList<User>();
 	public Connection connection = BddConnection.getConnection();
 	
+	public boolean isLogin(String login, String password) {
+		String loginQuery = "SELECT * FROM T_Users WHERE Login = ? AND Password = ?;";
+		try(PreparedStatement ps = connection.prepareStatement(loginQuery)) {
+			ps.setString(1, login);
+			ps.setString(2, password);
+			try(ResultSet resultSet = ps.executeQuery()){
+				return resultSet.next();
+			}
+		} catch (SQLException e) {
+			logger.severe("Erreur de saisie" + e.getMessage());
+		}
+		return false;
+	}
+	
 	@Override
 	public void create(User user) {
 		String createUser = "INSERT INTO T_Users(Login, Password) VALUES (?,?);";
