@@ -76,7 +76,7 @@ public class ArticleDao implements Dao<Article>{
 	public boolean delete(Article article) {
 		String removearticle = "DELETE FROM T_Articles WHERE IdArticle = ?";
 		try(PreparedStatement ps = connection.prepareStatement(removearticle)){
-			ps.setInt(1, (article.getIdArticle()-1));
+			ps.setInt(1, article.getIdArticle());
 			if(ps.executeUpdate() == 1) {
 				System.out.println("Suppréssion effectuée");
 				return true;
