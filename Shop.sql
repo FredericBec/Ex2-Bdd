@@ -113,7 +113,13 @@ VALUES
 	("Alejandra", "M3x1cAn0!"),
 	("Donovan", "R0c4St1r!");
 
+-- Donner des droits à un utilisateur
+-- Depuis la session root
+CREATE USER 'Frederic' IDENTIFIED BY 'BmI4@e40D';
+GRANT ALL PRIVILEGES ON shop.* TO 'Frederic';
 
+-- Enlever les privilèges
+REVOKE ALL PRIVILEGES ON shop FROM 'Frederic';
 
 
 
