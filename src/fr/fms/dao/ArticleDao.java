@@ -38,8 +38,8 @@ public class ArticleDao implements Dao<Article>{
 			try(ResultSet resultSet = ps.executeQuery()) {
 				if(resultSet.next()) {
 					int rsIdArticle = resultSet.getInt(1);
-					String rsDescription = resultSet.getNString("Description");
-					String rsBrand = resultSet.getNString("Brand");
+					String rsDescription = resultSet.getString("Description");
+					String rsBrand = resultSet.getString("Brand");
 					double rsUnitaryPrice = resultSet.getDouble("UnitaryPrice");
 					int rsIdCategory = resultSet.getInt("IdCategory");
 					
