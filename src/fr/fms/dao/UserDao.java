@@ -1,6 +1,6 @@
 package fr.fms.dao;
 
-import java.sql.Connection;
+//import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import fr.fms.entities.User;
 
 public class UserDao implements Dao<User>{
 	public static ArrayList<User> users = new ArrayList<User>();
-	public Connection connection = BddConnection.getConnection();
+	//public Connection connection = BddConnection.getConnection();
 	
 	public boolean isLogin(String login, String password) {
 		String loginQuery = "SELECT * FROM T_Users WHERE Login = ? AND Password = ?;";

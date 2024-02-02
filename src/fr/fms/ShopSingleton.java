@@ -1,6 +1,6 @@
 package fr.fms;
 
-import fr.fms.dao.ArticleCart;
+import fr.fms.business.ArticleCart;
 import fr.fms.dao.ArticleDao;
 import fr.fms.dao.UserDao;
 

@@ -1,6 +1,6 @@
 package fr.fms.dao;
 
-import java.sql.Connection;
+//import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import fr.fms.entities.Article;
 
 public class ArticleDao implements Dao<Article>{
 	public ArrayList<Article> articles = new ArrayList<Article>();
-	public Connection connection = BddConnection.getConnection();
+	//public Connection connection = BddConnection.getConnection();
 	
 	@Override
 	public void create(Article article) {
@@ -34,7 +34,7 @@ public class ArticleDao implements Dao<Article>{
 		Article article = null;
 		String readArticle = "SELECT IdArticle, Description, Brand, UnitaryPrice, IdCategory FROM T_Articles WHERE IdArticle = ?";
 		try(PreparedStatement ps = connection.prepareStatement(readArticle)) {
-			ps.setInt(1, articles.get(id - 1).getIdArticle());
+			ps.setInt(1, id);
 			try(ResultSet resultSet = ps.executeQuery()) {
 				if(resultSet.next()) {
 					int rsIdArticle = resultSet.getInt(1);
