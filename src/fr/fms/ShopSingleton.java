@@ -1,5 +1,6 @@
 package fr.fms;
 
+import fr.fms.dao.ArticleCart;
 import fr.fms.dao.ArticleDao;
 import fr.fms.dao.UserDao;
 
@@ -9,6 +10,7 @@ public class ShopSingleton {
 	
 	private ArticleDao articles;
 	private UserDao users;
+	private ArticleCart cart;
 
 	private ShopSingleton() {
 
@@ -22,6 +24,7 @@ public class ShopSingleton {
 					INSTANCE = new ShopSingleton();
 					INSTANCE.articles = new ArticleDao();
 					INSTANCE.users = new UserDao();
+					INSTANCE.cart = new ArticleCart();
 				}
 			}
 		}
@@ -34,6 +37,10 @@ public class ShopSingleton {
 
 	public UserDao getUsers() {
 		return users;
+	}
+
+	public ArticleCart getCart() {
+		return cart;
 	}
 	
 }
