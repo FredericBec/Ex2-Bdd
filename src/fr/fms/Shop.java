@@ -71,13 +71,13 @@ public class Shop {
 		System.out.println("Que souhaitez-vous faire ?");
 		choice = getInt();
 		while(choice != 5) {
-			
 			switch(choice) {
 			case 1 :
 				addArticle();
 				break;
 			case 2 :
-				
+				removeArticle();
+				break;
 			case 3 :
 				displayArticleList();
 				break;
