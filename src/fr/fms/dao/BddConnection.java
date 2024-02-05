@@ -11,24 +11,27 @@ import java.util.Properties;
 public class BddConnection {
 
 	private static Properties prop;
-	private static Connection connection;
-	
-	public static Connection getConnection() {
+	private static Connection connection = null;
+
+	private BddConnection() {
 		try {
 			prop = readPropertiesFile("config.properties");
 			Class.forName(prop.getProperty("db.driver.class"));
+			connection = DriverManager.getConnection(prop.getProperty("db.url"), 
+					prop.getProperty("db.login"), prop.getProperty("db.password"));
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
 			e.printStackTrace();
-		}
-		
-		try {
-			connection = DriverManager.getConnection(prop.getProperty("db.url"), 
-									prop.getProperty("db.login"), prop.getProperty("db.password"));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static synchronized Connection getConnection() {
+		
+		if(connection == null) new BddConnection();
 		return connection;
 	}
 	
