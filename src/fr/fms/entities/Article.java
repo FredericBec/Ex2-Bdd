@@ -72,8 +72,8 @@ public class Article {
 
 	@Override
 	public String toString() {
-		return "Article [IdArticle=" + IdArticle + ", Description=" + Description + ", Brand=" + Brand
-				+ ", UnitaryPrice=" + UnitaryPrice + ", IdCategory=" + IdCategory + "]";
+		return IdArticle + " - " + Description + " - " + Brand
+				+ " - " + UnitaryPrice + " - " + IdCategory;
 	}
 
 }
