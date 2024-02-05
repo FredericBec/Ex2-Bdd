@@ -108,11 +108,13 @@ public class TestJdbc {
 	}
 	
 	public static void updateArticle(Article article) {
-		String update = "UPDATE T_Articles SET Brand = ? WHERE IdArticle = ?";
+		String update = "UPDATE T_Articles SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = ?";
 		try(Connection connection = DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.login"), prop.getProperty("db.password"))){
 			try(PreparedStatement ps = connection.prepareStatement(update)){
-				ps.setString(1, "Avast");
-				ps.setInt(2, 15);
+				ps.setString(1, article.getDescription());
+				ps.setString(2, article.getBrand());
+				ps.setDouble(3, article.getUnitaryPrice());
+				ps.setInt(4, article.getIdArticle());
 				if(ps.executeUpdate() == 1)
 					System.out.println("insertion ok");
 			}

@@ -3,6 +3,7 @@ package fr.fms;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.fms.business.ArticleCart;
 //import fr.fms.dao.ArticleDao;
 //import fr.fms.dao.UserDao;
 import fr.fms.entities.Article;
@@ -11,7 +12,7 @@ import fr.fms.entities.User;
 public class Shop {
 
 	public static Scanner scan = new Scanner(System.in);
-	public static ShopSingleton shop = ShopSingleton.getInstance();
+	private static ArticleCart cart = new ArticleCart();
 	public static ArrayList<String> menu = new ArrayList<String>();
 	
 	public static void main(String[] args) {
@@ -66,18 +67,28 @@ public class Shop {
 	
 	public static void start() {
 		displayMenu();
+		int choice = 0;
 		System.out.println("Que souhaitez-vous faire ?");
-		
-		switch(getInfo(scan, menu)) {
-		case "Afficher la liste des articles" :
-			displayArticleList();
-			break;
-		case "Commander" :
-			order();
-			break;
-		default :
-			System.exit(0);
-		
+		choice = getInt();
+		while(choice != 5) {
+			
+			switch(choice) {
+			case 1 :
+				addArticle();
+				break;
+			case 2 :
+				
+			case 3 :
+				displayArticleList();
+				break;
+			case 4 :
+				order();
+				break;
+			case 5 :
+				System.exit(0);
+			default :
+				System.out.println("Veuillez saisir une valeur compris entre 1 et 5 !");
+			}
 		}
 		
 		
@@ -87,61 +98,56 @@ public class Shop {
 		System.out.println("+-----------------------------------------------------------+");
 		System.out.println("|" + "\t\tBienvenue dans le bon coin du gamer\t    " + "|");
 		System.out.println("+-----------------------------------------------------------+");
+		displayArticleList();
+
 	}
 	
-	public static ArrayList<String> displayMenu() {
-		menu.add("Afficher la liste des articles");
+	public static void displayMenu() {
+		menu.add("Ajouter un article");
+		menu.add("Retirer un article");
 		menu.add("Commander");
 		menu.add("Sortir");
 		int index = 1;
-		for(String m : menu)
+		for(String m : menu) {
 			System.out.println(index++ + " - " + m);
-		return menu;
+		}
 	}
 	
-	public static ArrayList<Article> displayArticleList() {
+	public static void displayArticleList() {
 		System.out.println("+----------------- Liste des articles ----------------------+");
-		for(Article a : shop.getArticles().readAll())
-			System.out.println("  " + a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
-		return shop.getArticles().readAll();
+		cart.readArticles().stream().forEach(System.out::println);
+		System.out.println("+-----------------------------------------------------------+");
 	}
 	
-	public static <T> T getInfo(Scanner scan, ArrayList<T> list) {
-		int maxChoice = list.size();
-		
-		int userChoice = 0;
-		while(userChoice < 1 || userChoice > maxChoice) {
-			userChoice = scan.nextInt();
+	public static void addArticle() {
+		displayArticleList();
+		System.out.println("Sélectionner l'article");
+		int id = getInt();
+		Article article = cart.readOneArticle(id);
+		if(article != null) {
+			cart.addToCart(article);
+		}else
+			System.out.println("L'article que vous souhaitez n'existe pas !!");
+	}
+	
+	public static void removeArticle() {
+		System.out.println("Selectionner l'id de l'artircle à retirer");
+		int id = getInt();
+		Article article = cart.readOneArticle(id);
+		cart.deleteFromCart(article);
+	}
+	
+	public static int getInt() {
+		if(!scan.hasNext()) {
+			System.out.println("Saississez ue valeur entière !!");
+			scan.next();
 		}
 		
-		return list.get(userChoice - 1);
+		return scan.nextInt();
 	}
 	
 	public static void order() {
-		boolean continueShop = true;
-		while(continueShop) {
-			System.out.println("Que souhaitez-vous commander");
-			Article articleChoice = getInfo(scan, displayArticleList());
-			shop.getCart().addCart(articleChoice.getIdArticle());
-			System.out.println("Avez-vous fini vos achats ?");
-			scan.nextLine();
-			String response = scan.nextLine();
-			if(response.equalsIgnoreCase("oui")) {
-				continueShop = false;
-				
-			}
-			
-		}
 		
-		System.out.println("Souhaitez-vous afficher votre panier ?");
-		String response = scan.nextLine();
-		if(response.equalsIgnoreCase("oui"))
-			shop.getCart().showCart();
-		System.out.println("Pour retourner au menu, appuyer sur +");
-		response = scan.nextLine();
-		if(response.equalsIgnoreCase("+"))
-			start();
-		scan.nextLine();
 	}
 
 }
